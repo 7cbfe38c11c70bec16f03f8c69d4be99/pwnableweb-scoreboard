@@ -52,6 +52,8 @@ def register_user(email, nick, password, team_id=None,
                 models.db.session.rollback()
                 raise errors.ValidationError('Team already exists!')
         else:
+            if(team_id == None):
+                raise errors.ValidationError('No team ID specified')
             team = models.Team.query.get(int(team_id))
             if not team or team_code.lower() != team.code.lower():
                 raise errors.ValidationError(
